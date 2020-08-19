@@ -1,5 +1,5 @@
 ---
-title: "index"
+title: ""
 output: html_document
 ---
 
@@ -34,5 +34,19 @@ m2 <- metareg(m1, species_richness)
 m3 <- metareg(m1, species_richness * measure.success)
 summary(m3)
 plot(m3)
+
+#not perfect data
+m3_data <- as.data.frame(m3[["vb"]]) %>% 
+  select(species_richness, 3:9) %>% 
+  pivot_longer(-species_richness, names_to = "measure", values_to = "effect_size") %>% 
+  remove_rownames()
+
+ggplot(m3_data, aes(species_richness, effect_size)) +
+  geom_point() +
+  geom_smooth(se = FALSE, method = lm, size = 2, color = "seagreen")
+
+ggplot(m3_data, aes(species_richness, effect_size, color = measure)) +
+  geom_point() +
+  geom_smooth(se = FALSE, method = lm)
 
 ```
