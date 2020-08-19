@@ -1,0 +1,19 @@
+---
+title: "index"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
+```
+
+## Applied BDEF tipping point analysis
+
+```{r data}
+library(tidyverse)
+library(skimr)
+restoration <- read_csv("data/BDEF_restoration.csv") %>% 
+  filter(species_richness > 0)
+skim(restoration)
+
+```
