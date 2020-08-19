@@ -10,10 +10,29 @@ knitr::opts_chunk$set(echo = TRUE, warning=FALSE, message=FALSE)
 ## Applied BDEF tipping point analysis
 
 ```{r data}
+#libraries
 library(tidyverse)
 library(skimr)
+library(meta)
+
 restoration <- read_csv("data/BDEF_restoration.csv") %>% 
   filter(species_richness > 0)
 skim(restoration)
+
+#meta-models
+m1 <- metacont(n.t, mean.t, sd.t, n.c, mean.c, sd.c,
+               data = restoration, sm = "SMD")
+#summary(m1)
+
+#richness test
+m2 <- metareg(m1, species_richness)
+#summary(m2)
+#bubble(m2)
+#plot(m2)
+
+
+m3 <- metareg(m1, species_richness * measure.success)
+summary(m3)
+plot(m3)
 
 ```
